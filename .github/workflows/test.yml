@@ -34,4 +34,4 @@ jobs:
               env:
                   CI: true
             - name: Check spelling
-              uses: crate-ci/typos@myimage
+              uses: crate-ci/typos@master
