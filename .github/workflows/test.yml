@@ -2,10 +2,10 @@ name: Node CI
 
 on:
     push:
-        branches: master
+        branches: myimage
     pull_request:
         branches:
-            - master
+            - myimage
 
 jobs:
     build:
@@ -17,6 +17,8 @@ jobs:
 
         steps:
             - uses: actions/checkout@v1
+              with:
+                  ref: myimage
             - name: Use Node.js ${{ matrix.node-version }}
               uses: actions/setup-node@v4
               with:
@@ -32,4 +34,4 @@ jobs:
               env:
                   CI: true
             - name: Check spelling
-              uses: crate-ci/typos@master
+              uses: crate-ci/typos@myimage

@@ -2,13 +2,15 @@ name: Publish Docker
 on:
     push:
         branches:
-            - master
+            - myimage
 jobs:
     build:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
               uses: actions/checkout@v3
+              with:
+                  ref: myimage
             - name: Set up QEMU
               uses: docker/setup-qemu-action@v3
             - name: Set up Docker Buildx
@@ -27,7 +29,7 @@ jobs:
                   BRANCH_NAME=`echo $GITHUB_REF_NAME`
                   echo "BRANCH_NAME: $BRANCH_NAME"
 
-                  unset IMG_TAGS ; if [[ $BRANCH_NAME == "master" ]]; then IMG_TAGS='latest' ; else IMG_TAGS="$BRANCH_NAME"; fi
+                  unset IMG_TAGS ; if [[ $BRANCH_NAME == "myimage" ]]; then IMG_TAGS='latest' ; else IMG_TAGS="$BRANCH_NAME"; fi
                   SHA_TAG=`echo $GITHUB_SHA | head -c 6`
                   echo "SHA_TAG: $SHA_TAG"
                   echo "DOCKER_BRANCH_TAG=${IMG_TAGS}" >> $GITHUB_OUTPUT
@@ -38,4 +40,4 @@ jobs:
                   context: .
                   platforms: linux/amd64,linux/arm64
                   push: true
-                  tags: fengkx/node_rssbot:${{steps.docker-tag.outputs.DOCKER_BRANCH_TAG}},fengkx/node_rssbot:${{steps.docker-tag.outputs.DOCKER_SHA_TAG}}
+                  tags: petermatthew/node_rssbot:${{steps.docker-tag.outputs.DOCKER_BRANCH_TAG}},petermatthew/node_rssbot:${{steps.docker-tag.outputs.DOCKER_SHA_TAG}}
